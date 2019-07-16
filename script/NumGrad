@@ -1,0 +1,1022 @@
+#!/bin/sh  
+
+cat <<%EOF%
+#############################################################
+#                                                           #
+#                      N u m G r a d                        #
+#                    Numerical Gradient                     #
+#                                                           #
+#############################################################
+%EOF%
+
+STARTDIR=`pwd`
+FORCEDIR=$STARTDIR/numgrad
+MAXJOBS=1
+
+#switch off usage of parallel binaries and use -mfile option instead, which is
+# more efficient in (almost ?) all cases
+# if you think that you do really, really have to use MPI or GA version, 
+# for what reason ever, just remove the next line:
+unset PARA_ARCH
+
+if [ -z "$TURBODIR" ]; then
+   echo
+   echo "environment variable TURBODIR has not been set yet \!\!\!"
+   echo "TURBODIR = path of the TURBOMOLE directory \(e.g. /user/tc/work\)"
+   echo
+   exit 1
+elif [ -f "$HOME/.turbomole_developer" ]; then
+    if [ -x "/usr/bin/readlink" ]; then
+	READLINK="/usr/bin/readlink"
+    elif [ -x "`which readlink`" ]; then
+	READLINK="readlink"
+    else
+	unset READLINK
+    fi
+    if [ -n "${READLINK}" ]; then
+	TURBODIRLINK="`${READLINK} -e "${TURBODIR}"`"
+	if [ $? -eq 0 ]; then
+	    TURBODIR="${TURBODIRLINK}"
+	    export TURBODIR
+	fi
+    fi
+fi
+TSCRIPTS=$TURBODIR/scripts
+SCRIPTS=$TURBODIR/scripts
+TTURBOLOAD=$TURBODIR/bin/`sysname`
+TURBOLOAD=$TURBODIR/bin/`sysname`
+forceout=aoforce.out
+gradfile=gradient
+energyfile=energy
+tmpfile=temp
+tmpfile2=temp2
+controlfile2=control.ori
+hessianfile=hessian
+dipgradfile=dipgrad
+rueckerfile=gradruecker.out
+freezeoption="nofreeze"
+# take care of decimal points
+LANG="C"
+LC_ALL="C"
+LC_CTYPE="C"
+remoteshell=ssh
+WORKDIR=$FORCEDIR/KraftWerk
+INPUTDIR=$FORCEDIR/Input
+HOST=`hostname`
+echo
+echo " running on $HOST"
+echo " date: "`date`
+echo
+
+#-------------------- arguments ----------------------
+unset restart init prep ri rijk ex override dconv scrpath cosmo periodic
+if [ -d $WORKDIR ]; then
+    restart=on
+fi
+# default displacement of atoms 0.02 au
+delta=0.02
+# default level
+level=scf
+# default modus
+type="'central'"
+# default dimension
+dimension="'norm'"
+# initialize charge
+charge=0.0
+# threshold for gradient
+thrgrd=0.01
+# use nodefile supplied by PBS as default in parallel runs
+if [ -n "$PBS_NODEFILE" ]; then
+  mfile=$PBS_NODEFILE
+elif [ -n "${SLURM_JOB_ID}" ] && [ -z ${HOSTS_FILE} ] ; then # use parsed slurm-nodelist
+# btk: Parsing SLURM nodelist output into a hostfile 
+# btk: adapted from mpirun_scripts
+  N_NODES=`scontrol show hostnames $SLURM_JOB_NODELIST`
+  T_NODES=`echo $SLURM_TASKS_PER_NODE | sed 's/(x[0-9]*)/ /g'`
+  rm -f hostlist
+  for i in `seq 1 $SLURM_JOB_NUM_NODES`; do
+    for j in `seq 1 $T_NODES`; do
+     echo $N_NODES | awk '{split($0,array," ")} ; {print array[i]}' i=$i >> hostlist
+    done
+  done
+  mfile=./hostlist
+fi
+
+
+##### HELP OPTION
+
+if [ $# -gt 0 ]; then
+if [ "$1" = "-h" -o "$1" = "-?" -o  "$1" = "-help" ]; then
+
+    cat <<END 
+
+ NumGrad: calculation of numerical gradient
+
+ USAGE: Specification with \$numgrad section in control file, e.g.:
+
+\$numgrad
+  delta 0.001
+  level cc2
+  type symad
+
+ IMPORTANT: 
+
+  The coordinates must be located in a file termed 'coord',
+  molecular orbitals in a file termed 'mos' in case of RHF,
+  respectively 'alpha' and 'beta' in case of UHF. Furthermore,
+  basis sets must be located in file 'basis'.
+
+
+Description:
+
+ LEVEL
+
+  For the calculation of energies possible levels are:
+  scf, dft, cc2, ccsdf12, pnoccsd.
+  
+ TYPE
+  
+  There are three types available: 
+    diatmic : for two atoms (have to be placed parallel to the z-coordinate)
+    central : for molecules with more than two atoms, displacement along 
+              x, y, and z-coordinate
+    symad   : for molecules with symmetry. Displacement only along the 
+              symmetry adapted coordinates with total symmetry.
+              It is possible to use the symmetry for the calculation of the 
+              energy.
+
+
+ EXTRAS
+
+  only ruecked : Only shifted coordinates will be created (this requires
+                 still one calculation of the hessian)
+
+  use symmetry : Use symmetry for the calculation of energies at the displaced
+                 structures (only with type symad possible) 
+
+  mfile <file> : File containing machines available for parallel execution 
+
+ JOBEX
+
+ It is possible to use NumGrad together with jobex via:
+    jobex -level NumGrad
+
+END
+            exit
+fi
+fi
+
+
+
+showdg="${TURBOLOAD}/sdg"
+if [ ! -x "${showdg}" ]; then
+    echo; echo "No executable sdg in ${TURBOLOAD}"
+    if [ -x "${TTURBOLOAD}/sdg" ]; then
+	showdg="${TTURBOLOAD}/sdg"
+	echo "Use executable sdg in ${TTURBOLOAD}"
+    else
+	echo
+	exit 1
+    fi
+    echo
+fi
+
+if [ `$showdg rij | wc -l` -gt 0 ]; then
+  ri=RI
+fi
+
+if [ `$showdg rik | wc -l` -gt 0 ]; then
+  rijk=RI-K
+fi
+
+if [ `$showdg periodic | wc -l` -gt 0 ]; then
+  periodic=RIPER
+fi
+
+##### READ INPUT FROM CONTROL FILE
+
+#!---- necessary: delta for displacement, type (diatmic, central, symad)
+#!---- and level of calculation (cc2 mostly) 
+trydelta=`$showdg numgrad | grep delta | awk '{print $2}'`
+if [ "$trydelta" != "" ]; then
+  delta=$trydelta
+fi
+trytype=`$showdg numgrad | grep type | awk '{print $2}'`
+if [ "$trytype" != "" ]; then
+  type=$trytype
+fi
+trylevel=`$showdg numgrad | grep level | awk '{print $2}'`
+if [ "$trylevel" != "" ]; then
+  level=$trylevel
+fi
+
+#!--- scale with atommass or mass=one
+test_wmass=`$showdg numgrad | grep wmass | wc -l`
+if [ "$test_wmass" = "1" ] ; then
+ wmass=`$showdg numgrad | grep wmass | awk '{print $2}'`
+else
+ wmass="one"
+fi
+
+#!--- use symmetry if possible 
+if [ "$type" = "symad" ]; then
+ usesym=`$showdg numgrad | grep "use symmetry" | wc -l`
+else
+ usesym=0
+fi
+
+#!--- for 'parallel case' 
+usemfile=`$showdg numgrad | grep mfile | wc -l`
+if [ $usemfile -eq 1 ] ; then
+  mfile=`$showdg numgrad | grep mfile | awk '{print $2}'`
+fi
+usescrpath=`$showdg numgrad | grep scrpath | wc -l`
+if [ $usescrpath -eq 1 ] ; then
+  scrpath=`$showdg numgrad | grep scrpath | awk '{print $2}'`
+fi
+
+#!--- get only displaced coordinates
+only_ruecked=`$showdg numgrad | grep 'only ruecked' | wc -l`
+
+#-------------------- checks ----------------------
+if [ "$TURBOLOAD" = "" ]; then
+    echo
+    echo Load directory path is undefined - use option -l "<directory path>"
+    echo
+    exit 1
+fi
+if [ ! -x "${SCRIPTS}/runsingle_energy" ]; then
+    echo; echo "Can not find runsingle_energy script in ${SCRIPTS}"
+    if [ -x "${TSCRIPTS}/runsingle_energy" ]; then
+	echo "Use runsingle_energy script in ${TSCRIPTS}"
+    else
+	echo
+	exit 1
+    fi
+    echo
+fi
+showdg="${TURBOLOAD}/sdg"
+if [ ! -x "${showdg}" ]; then
+    echo; echo "No executable sdg in ${TURBOLOAD}"
+    if [ -x "${TTURBOLOAD}/sdg" ]; then
+	showdg="${TTURBOLOAD}/sdg"
+	echo "Use executable sdg in ${TTURBOLOAD}"
+    else
+	echo
+	exit 1
+    fi
+    echo
+fi
+killdg="${SCRIPTS}/kdg"
+if [ ! -x "${killdg}" ]; then
+    echo; echo "No script kdg in ${SCRIPTS}"
+    if [ -x "${TSCRIPTS}/kdg" ]; then
+	killdg="${TSCRIPTS}/kdg"
+	echo "Use script kdg in ${TSCRIPTS}"
+    else
+	echo
+	exit 1
+    fi
+    echo
+fi
+cpcontrol="${SCRIPTS}/cpc"
+if [ ! -x "${cpcontrol}" ]; then
+    echo; echo "No script cpc found in ${SCRIPTS}"
+    if [ -x "${TSCRIPTS}/cpc" ]; then
+	cpcontrol="${TSCRIPTS}/cpc"
+	echo "Use script cpc in ${TSCRIPTS}"
+    else
+	echo
+	exit 1
+    fi
+    echo
+fi
+#if [ `$showdg grad | grep cycle | wc -l` -eq 0 ]; then
+#    echo; echo Can not find data group \$grad; echo
+#    exit 1
+#fi
+
+
+if [ -n "$mfile" ]; then 
+   if [ -f "$mfile" ]; then
+      MAXJOBS=`cat $mfile | wc -l`
+      echo "NumGrad has been started with the -mfile option, hence it can be"
+      echo "    run in parallel. This is most efficient if the serial binaries"
+      echo "    are used and started independently at a time. "
+      echo 
+      echo "    -> Starting several serial single-point jobs for optimal speed up..."
+   else
+      echo "error reading machinefile $mfile"
+      exit 1
+   fi
+fi
+
+# checks for parallel runs
+if [ $MAXJOBS -gt 1 ]; then
+    echo "execute parallel run using NODEFILE: $mfile"
+    #
+    #  construct a list of unique names for each CPU and host
+    #  (will be stored in $HOSTLIST)
+    #
+    RAWHOSTLIST=`cat $mfile`
+    HOSTLIST=""
+    NoOfNodes=0
+
+    for host in $RAWHOSTLIST; do
+	i=0
+	unique_name=0
+	while [ $unique_name -eq 0 ]; do
+		i=`expr $i + 1`
+		machinename=$host":"$i
+		unique_name=1
+		for machine in $HOSTLIST; do
+			if [ $machine == $machinename ]; then
+				unique_name=0
+			fi
+		done
+	done
+	HOSTLIST="$HOSTLIST $machinename"
+	NoOfNodes=`expr $NoOfNodes + 1`
+      done
+      echo "There are $NoOfNodes free nodes: $HOSTLIST "
+      echo "all nodes will be used for calculation"
+
+      MAXJOBS=$NoOfNodes
+
+      # test existence of hosts and try to login
+      for machine in $HOSTLIST ; do
+	    loginname=`echo $machine | cut -f 1 -d ":"`
+
+		$remoteshell -o StrictHostkeyChecking=no  $loginname "echo login test on $machine"
+		if [ $? -ne 0 ]; then
+		    echo; echo "Error logging in on $machine"
+
+		    exit 1
+		fi
+
+      done
+
+fi
+
+#read control
+if [ -f control ]; then
+    c1sym=`grep symmetry control | grep c1 | wc -l`
+    uhfmode=`grep uhf control | wc -l`
+#  conv=`$showdg scfconv|awk '{c=$2; if (c<6) c=6; print c}'`
+    conv=`$showdg scfconv|awk '{print $2}'`
+    if [ $level = "ccsdf12" -o $level = "cc2" -o $level = "pnoccsd" ]; then
+#  extract exponent:
+	dconv=`$showdg denconv|awk '{print $2}'|sed s/[dD]/e/g`
+	dconv=`echo $dconv|awk '{c=$1; printf ("%g",c)}'`
+	dconv=`echo $dconv|sed s/^.*e[-]*//g`
+    fi
+    natoms=`$showdg coord|awk 'NF > 0 {i++};END{print i-1}'`
+else
+    echo; echo Can not find control file; echo
+    exit 1
+fi
+
+# post processing of control data
+if [ $conv -lt 7  -a ! "$override" ]; then
+    echo NOTE: \$scfconv is automatically set to 7
+    conv=7
+fi
+if [ $level = "ccsdf12" -o $level = "cc2" -o $level = "pnoccsd" ]; then
+    if [ $dconv -lt 7 -a ! "$override" ]; then
+	echo NOTE: \$denconv is automatically set to 1d-7
+	dconv=7
+    fi
+fi
+
+# set dscf-, grad- and moloch- commands
+if [ $level = "ccsdf12" ]; then
+    getmo=$TURBOLOAD/dscf; getgrad=$TURBOLOAD/ccsdf12
+    if [ "$ri" ]; then
+	getmo=$TURBOLOAD/ridft
+    fi
+elif [ $level = "cc2" ]; then
+    getmo=$TURBOLOAD/dscf; getgrad=$TURBOLOAD/ricc2
+    if [ "$ri" ]; then
+      getmo=$TURBOLOAD/ridft
+    fi
+elif [ $level = "pnoccsd" ]; then
+    getmo=$TURBOLOAD/dscf; getgrad=$TURBOLOAD/pnoccsd
+    if [ "$ri" ]; then
+      getmo=$TURBOLOAD/ridft
+    fi
+else
+    if [ "$periodic" ]; then
+        getmo=$TURBOLOAD/riper; getgrad=$TURBOLOAD/riper
+    elif [ "$ri" ]; then
+	getmo=$TURBOLOAD/ridft; getgrad=$TURBOLOAD/rdgrad
+    else
+	getmo=$TURBOLOAD/dscf; getgrad=$TURBOLOAD/grad
+    fi
+fi
+if [ "$ex" ]; then
+    getgrad=$TURBOLOAD/egrad;
+fi
+getcharge=$SCRIPTS/getcharge.awk
+getruecked=$TURBOLOAD/gradruecker
+getsammled=$TURBOLOAD/gradsammel
+getaoforce=$TURBOLOAD/aoforce
+if [ ! -x $getmo ]; then
+    echo; echo "No executable $getmo found"
+    if [ -x "${TTURBOLOAD}/`basename ${getmo}`" ]; then
+	getmo="${TTURBOLOAD}/`basename ${getmo}`"
+	echo "Use executable $getmo instead"
+    else
+	echo
+	exit 1
+    fi
+    echo
+fi
+if [ ! -x $getgrad ]; then
+    echo; echo No executable $getgrad
+    if [ -x "${TTURBOLOAD}/`basename ${getgrad}`" ]; then
+	getgrad="${TTURBOLOAD}/`basename ${getgrad}`"
+	echo "Use executable $getgrad instead"
+    else
+	echo
+	exit 1
+    fi
+    echo
+fi
+if [ ! -x $getcharge ]; then
+    echo; echo No executable $getcharge
+    if [ -x "${TSCRIPTS}/`basename ${getcharge}`" ]; then
+	getcharge="${TSCRIPTS}/`basename ${getcharge}`"
+	echo "Use script $getcharge instead"
+    else
+	echo
+	exit 1
+    fi
+    echo
+fi
+if [ ! -x $getruecked ]; then
+    echo; echo No executable $getruecked
+    if [ -x "${TTURBOLOAD}/`basename ${getruecked}`" ]; then
+	getruecked="${TTURBOLOAD}/`basename ${getruecked}`"
+	echo "Use executable $getruecked instead"
+    else
+	echo
+	exit 1
+    fi
+    echo
+fi
+if [ ! -x $getsammled ]; then
+    echo; echo No executable $getsammled
+    if [ -x "${TTURBOLOAD}/`basename ${getsammled}`" ]; then
+	getsammled="${TTURBOLOAD}/`basename ${getsammled}`"
+	echo "Use executable $getsammled instead"
+    else
+	echo
+	exit 1
+    fi
+    echo
+fi
+if [ ! -x $getaoforce ]; then
+    echo; echo No executable $getaoforce
+    if [ -x "${TTURBOLOAD}/`basename ${getaoforce}`" ]; then
+	getaoforce="${TTURBOLOAD}/`basename ${getaoforce}`"
+	echo "Use executable $getaoforce instead"
+    else
+	echo
+	exit 1
+    fi
+    echo
+fi
+export STARTDIR FORCEDIR MAXJOBS SCRIPTS TURBOLOAD
+export getmo getgrad showdg
+if [ "$cosmo" ]; then
+    echo""
+    echo "PLEASE NOTE: -cosmo does not make sense in combination with -c."
+    echo "For a frequency calculation the structure should be converged"
+    echo "If you are interested in the Hessian, -cosmo is not needed"
+    echo "In this case the full relaxed cosmo charges are used."
+    exit 2
+    if [ "`basename ${getmo}`" != "ridft" ]; then
+	echo " presently -cosmo is implemented for ridft groundstate only "
+	exit 2
+    fi
+    if [ "$ex" ]; then
+	echo " -cosmo is not implemented for excited states"
+	exit 2
+    fi
+    tmp=`grep "\\$cosmo" control | grep -v "_" | grep -v "#"`
+    if [ -z "$tmp" ]; then
+	echo "Cannot find group cosmo in control"
+	exit 2
+    fi
+fi
+
+
+
+#-------------------- output ----------------------
+echo "#############################################################"
+echo "                    "
+echo " NumGrad Settings:"
+echo "    differentiation increment = $delta"
+echo "    type                      = $type"
+echo "    dimension of calculation  = $dimension"
+echo "    number of atoms           = $natoms"
+echo "    #CPUs                     = $MAXJOBS"
+echo "    machine file              = $mfile"
+echo "    restart                   = $restart"
+echo "    gradient check            = $check"
+echo "    stop after preparation    = $prep"
+echo "    scripts directory         = $SCRIPTS"
+[ -n "$scrpath" ] && echo "    scratch path              = $scrpath"
+echo "    scratch path              = $scrpath"
+echo "                    "
+echo " TURBOMOLE Settings:"
+echo "    load directory            = $TURBOLOAD"
+echo "    SCF-convergence \$scfconv  = $conv"
+[ -n "$dconv" ] && echo "                    \$denconv  = $dconv"
+if [ "$rijk" ]; then
+  echo "    level of calculation      = $ri $level combined with $rijk"
+else
+  echo "    level of calculation      = $ri $level"
+fi
+if [ "$ex" ]; then
+   echo "    excited state (C1 symm.)  = $ex"
+fi
+echo "    program to generate MOs     $getmo"
+echo "    program for gradients       $getgrad"
+if [ "$frznuc" ]; then
+    echo "    frozen nuclei specified in \$coord will be recognized"
+fi
+if [ $usesym -eq 1 ] ; then
+   echo "    NumGrad will use symmetry for energy calculations!"
+fi
+echo "                    "
+echo "#############################################################"
+echo
+if [ "$init" -a -d $FORCEDIR ]; then
+    rm -rf $FORCEDIR
+fi
+
+
+#-------------------- start initialization --------
+if [ ! "$restart" ]; then
+    mkdir $FORCEDIR
+    [ ! -d $FORCEDIR ] && exit 2
+    $cpcontrol -q $FORCEDIR
+    cd $FORCEDIR
+    # delete $intdef in control and coord file
+    $killdg intdef
+    intde=`grep "intdef" coord | wc -l`
+    if [ $intde -ne 0 ] ; then
+	awk '
+    BEGIN{ i=0 }
+    $1 ~ /intdef/ { nanf=NR }
+    $1 ~ /end/    { nend1=NR }
+    $1 ~ /user-defined/ { nend2=NR }
+    {i++; datei[i]=$0}
+    END{ if (nend1 > nend2) {nend=nend2} else {nend=nend1}
+         for (j=1;j<nanf;j++) {print(datei[j])}
+         for (j=nend;j<=i;j++) {print(datei[j])}
+       }
+    ' coord > $tmpfile
+	mv $tmpfile coord
+    fi
+    # delete $energy and $gradient
+    rm -f energy gradient
+    $killdg energy
+    $killdg grad
+
+#
+# COSMO
+#
+    if [ "$cosmo" ]; then
+	echo "== COSMO freq. calc., using frozen charges =="
+# reorganize the cosmo sections in control
+# cosmo_atoms section
+	$showdg -c cosmo_atoms >$tmpfile2
+	$killdg cosmo_atoms
+# cosmo_out
+	cosoutfile=`grep '$cosmo_out' control`
+	$killdg cosmo_out
+# cosmo section
+	$showdg -c cosmo >$tmpfile
+	refind=`$showdg cosmo | grep refind | grep -v "#" |sed s/.*=//`
+	$killdg cosmo
+# kill the other cosmo groups to be on the save side
+	testres=`$showdg -c -q -t cosmo`
+	while [ -n "$testres" ]; do
+	    $killdg cosmo
+	    testres=`$showdg -c -q -t cosmo`
+	done
+#
+# check refind value
+#
+	if [ "$refind" ]; then
+	    echo "       using refraction index: $refind"
+	else
+	    refind=1.3
+	    echo "       using default refraction index: $refind"
+	    echo "       own proposals have to be defined with:"
+	    echo "          refind=value (datagroup \$cosmo)"
+	echo " refind=$refind" >>$tmpfile
+	fi
+#
+# set cosmo_num_freq options 1. write frozen charge file
+#
+	echo "\$cosmo_num_freq" >>$tmpfile
+	echo " prepare" >>$tmpfile
+	echo "\$cosmo_data file=cosmo_transfer" >>$tmpfile
+# enable copying by cpc
+	echo "\$cosmo_frozen_data file=cosmo_transfer.fix" >>$tmpfile
+	echo "\$cosmo_mapped_frozen_data file=cosmo_transfer.fix.map" >>$tmpfile
+	cat $tmpfile2 >>$tmpfile
+	cat control >>$tmpfile
+	mv $tmpfile  control
+#       cp control control_step0
+	echo " "
+    fi
+
+
+# diatomic mode: get molecular charge
+    # if [ "$type" = "'diatmic'" ]; then
+    #   charge=`$getcharge out.getmo.test`
+    #   if [ "$charge" = "" ]; then
+    #       echo severe error: could not establish molecular charge
+    #       exit 4
+    #   fi
+    # fi
+    # rm out.getmo.test out.getgrad.test
+
+#
+# set cosmo_num_force options 2. cosmo settings for disturbed geometries
+#
+    if [ "$cosmo" ]; then
+	$killdg cosmo_num_freq
+	echo "\$cosmo_num_freq" >$tmpfile
+	cat control >>$tmpfile
+	mv $tmpfile  control
+  #     cp control control_step1
+    fi
+    if [ $c1sym -eq 0 ] && [ $usesym -eq 0 ]; then
+	echo "TRANSFORMING MOLECULAR ORBITALS INTO C1-SYMMETRY"
+	DEFINEPROG="${TURBOLOAD}/define"
+	if [ ! -x "${DEFINEPROG}" ]; then
+	    echo; echo "No executable ${DEFINEPROG}"
+	    if [ -x "${TTURBOLOAD}/`basename ${DEFINEPROG}`" ]; then
+		DEFINEPROG="${TTURBOLOAD}/`basename ${DEFINEPROG}`"
+		echo "Use executable $DEFINEPROG instead"
+	    else
+		echo "E R R O R"
+		exit 2
+	    fi
+	    echo
+	fi
+	$DEFINEPROG <<EOF > define.out
+
+y
+sy c1
+*
+no
+
+use ../control
+
+
+
+q
+*
+EOF
+    fi
+    $killdg drvopt
+    $killdg scfconv
+    $killdg denconv
+    $killdg atoms
+    $killdg energy
+    $killdg grad
+    $killdg scfdump
+    $killdg numforce
+    [ "$ex" ] && $killdg soes
+    (cd ..;$showdg atoms) > $tmpfile
+    [ $level = "ccsdf12" -o $level = "cc2" -o $level = "pnoccsd" ] && echo \$denconv 1d-$dconv >> $tmpfile
+    if [ "$ex" ]; then
+	echo \$soes >> $tmpfile
+	echo "a  $ex" >> $tmpfile
+    fi
+    if [ "$frznuc" ]; then
+       freezeoption="frzcoord"
+    fi
+    cat >> $tmpfile <<END
+#
+# NumGrad insertion:
+#
+\$scfconv $conv
+\$drvopt
+   frequency analysis only $freezeoption
+\$hessian  file=$hessianfile
+\$dipgrad  file=$dipgradfile
+\$grad  file=$gradfile
+\$energy  file=$energyfile
+\$vibrational normal modes
+\$vibrational spectrum
+#
+# end of NumGrad insertion.
+#
+END
+    cat control >> $tmpfile
+    mv $tmpfile control
+
+    mkdir $INPUTDIR
+    $cpcontrol -q $INPUTDIR
+
+
+# if $tmpdir is set and -mfile is used, make sure that two jobs do not
+# have the identical scratch directory.
+    if [ $MAXJOBS -gt 1 ]; then
+      $killdg tmpdir
+    fi
+
+    mkdir $WORKDIR
+
+#-------------------- initialization finished ------
+else
+
+#-------------------- restart ----------------------
+    if [ "$type" = "diatmic" ]; then
+	echo sorry, not restart in diatomic mode \!
+	exit 4
+    fi
+    echo
+    echo RESTARTING
+    echo
+    [ ! -d $FORCEDIR ] && exit 3
+    cd $FORCEDIR
+    actual -r
+    [ -f $controlfile2 ] && mv $controlfile2 control
+fi
+
+if [ "$frznuc" ]; then
+   freezeoption="dofreeze"
+fi
+#---------------------------------------------------
+[ "$prep" ] && echo "preparation finished" && exit 2
+
+#############################################################
+#                                                           #
+#                Numerical First Derivatives                #
+#                                                           #
+#############################################################
+
+[ ! -d $WORKDIR ] && exit 2
+cd $WORKDIR
+
+###
+## RUECKER
+###
+echo
+if [ ! "$restart" ]; then
+    cp $FORCEDIR/coord .
+    cp $STARTDIR/control .
+    cp $STARTDIR/basis .
+    echo $delta $type $dimension $wmass | $getruecked > $rueckerfile
+    rm coord
+    rm control
+    rm basis
+else
+# removed unfinished single point data (zero file length)
+    for i in *.grad *.dipole *.log; do
+	if [ ! -s $i ]; then
+	    rm -f $i
+	fi
+    done
+fi #restart
+
+
+#!---- Ending of NumGrad, if only ruecked coordinates are requested 
+if [ $only_ruecked -eq 1 ] ; then
+ echo "Only ruecked coordinates were requested"
+ echo "NumGrad quits ..."
+ exit 0
+fi 
+
+
+# get the actual type of calculation (central or polyedr)
+line=`grep -a "USED" $rueckerfile`
+echo $line
+type=`echo $line | awk '{print $2}'`
+
+#get number of total symmetric SAD
+if [ "$type" = "symad" ]; then
+ line=`grep -a "nsads(1)" $rueckerfile`
+ nsads=`echo $line | awk '{print $2}'`
+ echo $nsads
+ nsteps=$nsads
+else
+ nsads=1
+fi
+
+#reading variable ndisp:
+line=`grep ndisp $rueckerfile`
+if [ "$type" = "diatmic" ]; then
+    nsteps=2
+else
+    nsteps=`echo $line | awk '{print $4}'`
+fi
+echo number of single point calculations: $nsteps
+echo
+echo "#############################################################"
+echo
+echo "CALCULATIONS OF GRADIENTS IN DISPLACED GEOMETRIES WILL BE CARRIED OUT NOW"
+
+# prepare environment-file for ssh-runs
+ENVFILE=ENVIRONMENT.$$
+cat > $ENVFILE <<%EOF%
+#!/bin/sh
+# environment settings for ssh-runs
+# general
+export PATH=$PATH
+# TURBOMOLE
+export TURBODIR=$TURBODIR
+export TOOLS=$TOOLS
+export PARA_ARCH=$PARA_ARCH
+export TMOUT=$TMOUT
+# NUMFORCE
+export STARTDIR=$STARTDIR
+export FORCEDIR=$FORCEDIR
+export MAXJOBS=$MAXJOBS
+export SCRIPTS=$SCRIPTS
+export TURBOLOAD=$TURBOLOAD
+export getmo=$getmo
+export getgrad=$getgrad
+export showdg=$showdg
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+%EOF%
+
+# loop over all displacements
+direnergy=direnergy
+#mkdir $direnergy
+i=`expr 0`
+for disp in *.coord; do
+    i=`expr $i + 1`
+
+###
+## RUNSINGLE
+###
+    if [ -f $FORCEDIR/stop -o -f $FORCEDIR/STOP ]; then
+	rm -f $FORCEDIR/stop $FORCEDIR/STOP
+	if [ $MAXJOBS -eq 1 ]; then
+          # sequential case: we will just terminate
+          echo "FOUND stop FILE. TERMINATING ..." 
+        else
+          # parallel case: wait until slaves returned before exiting
+          echo "FOUND stop FILE. Wait until slaves finished their tasks..." 
+          wait
+	  sleep 1
+          echo "All slaves returned. TERMINATING ..." 
+        fi
+        exit 0
+    fi
+    dir=`basename $disp .coord`
+
+# restart: skip if non-empty gradient and dipole files exist
+    if [ -s $dir.energy ] ; then
+	echo "step $dir was already done  (#$i of $nsteps)"
+    else
+
+# non-parallel runs
+	if [ $MAXJOBS -eq 1 ]; then
+            if [ ! -f $FORCEDIR/reference_energy ]; then
+              cd $FORCEDIR
+              touch reference_energy
+               $SCRIPTS/runsingle_energy $direnergy
+              cd $WORKDIR
+            fi
+            echo "step $dir started  (#$i of $nsteps)"
+	    $SCRIPTS/runsingle_energy $dir
+	    if [ ! -s "$dir.log" ]; then
+		echo "STOP NumGrad: SCF-step has not converged !"
+		exit 4
+	    fi
+	else
+# parallel runs
+            # look for a free host
+	    for machine in $HOSTLIST; do
+                if [ ! -f $FORCEDIR/reference_energy ] ; then
+                  if [ ! -f lockhost.$machine ] ; then
+        	    loginname=`echo $machine | cut -f 1 -d ":"`
+        	    cpu=`echo $machine | cut -f 2 -d ":"`
+        	    touch lockhost.$machine
+                    touch $FORCEDIR/reference_energy
+                    $remoteshell -v $loginname "/bin/sh -c '\
+                          cd $FORCEDIR ;\
+                          export PATH=\$PATH:. ;\
+                          . $WORKDIR/$ENVFILE ; \
+                           $SCRIPTS/runsingle_energy $direnergy $machine $scrpath '" \
+                            2> energy.$machine.err &
+                  fi
+                fi
+		if [ ! -f lockhost.$machine ] && [ ! -f lock.$dir ]; then
+		    loginname=`echo $machine | cut -f 1 -d ":"`
+		    cpu=`echo $machine | cut -f 2 -d ":"`
+		    touch lock.$dir
+		    touch lockhost.$machine
+                    $remoteshell -v $loginname "/bin/sh -c '\
+                          cd $WORKDIR ;\
+                          export PATH=\$PATH:. ;\
+                          . $ENVFILE ; \
+                          $SCRIPTS/runsingle_energy $dir $machine $scrpath '" \
+                            2> $dir.$machine.err &
+		fi
+	    done
+
+  	    sleep 2
+
+            # wait until there are free hosts
+	    while [ `ls -1 lockhost.* 2>/dev/null | wc -l` -ge $MAXJOBS ]; do
+	        sleep 1
+	    done
+	fi #case parallel/not parallel
+    fi #case restart
+
+# check whether a stop file exists
+    if [ -f stop -o -f STOP ]; then
+	rm -f stop STOP
+	if [ $MAXJOBS -eq 1 ]; then
+          # sequential case: we will just terminate
+	  echo "FOUND stop FILE. TERMINATING ..."
+        else
+          # parallel case: wait until slaves returned before exiting
+          echo "FOUND stop FILE. Wait until slaves finished their tasks..." 
+          # wait until all hosts are free:
+	  while [ `ls -1 lockhost.* 2>/dev/null | wc -l` -ge $MAXJOBS ]; do
+	    sleep 1
+	  done
+          echo "All slaves returned. TERMINATING ..." 
+        fi
+	exit 0
+    fi ;
+done
+# end of loop over displacements
+
+# wait until all jobs have terminated
+echo "... now all jobs are started and I wait until all are finished"
+wait
+sleep 1
+echo "... all steps done!"
+
+# test for errors
+#if [ $MAXJOBS -gt 1 ]; then
+    for disp in *.coord; do
+        num_error=0
+	dir=`basename $disp .coord`
+	if [ -e "$dir.problem" ]; then
+	    echo "STOP NumGrad: There is a problem with $dir !"
+            num_error=$((num_error+1))
+	    #exit 4
+	fi
+    done
+    if [ $num_error -ne 0 ]; then
+      exit 4
+    fi
+#fi
+
+###
+## SAMMLER
+###
+echo
+echo
+echo "#############################################################"
+echo
+echo "CALCULATION OF GRADIENT"
+echo
+echo
+
+fileGradient=$STARTDIR/gradient
+if [ -f $fileGradient ]; then
+   cp $STARTDIR/gradient .
+fi
+
+fileForceEnergy=$FORCEDIR/energy
+if [ -f $fileForceEnergy ]; then
+   cp $FORCEDIR/energy .
+fi
+
+
+
+cp $STARTDIR/coord .
+cp $STARTDIR/control .
+if [ -f $STARTDIR/gradsammel.out ]; then
+cp $STARTDIR/gradsammel.out .
+fi
+#echo "Used type ist" $type
+#echo $delta $type $dimension $natoms $nsads
+echo $delta $type $dimension $natoms $nsads | $getsammled >> gradsammel.out 
+#$echo $delta $type $dimension $natoms $charge $freezeoption $nsads | $getsammled >> gradsammel.out 
+fileGradient=$WORKDIR/gradient
+cp $fileGradient $STARTDIR
+cp gradsammel.out $STARTDIR
+cp energy $STARTDIR
+
+
+echo
+echo "#############################################################"
+echo "#                END OF NumGrad                             #"
+echo "#############################################################"
+echo " date: "`date`
