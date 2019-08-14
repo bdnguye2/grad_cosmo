@@ -22,6 +22,7 @@ TODO: Decide on the COSMO parameters to test (Matthew)
 cosmo parameters:
 * nppa 1082
 * nspa 92 
+* dielectric constant 80 (water)
  
 chose these parameters to maintain consistancy with the ground state calculations.
  However the basis set was changed to be stronger
