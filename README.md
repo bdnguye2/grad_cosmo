@@ -28,3 +28,9 @@ chose these parameters to maintain consistancy with the ground state calculation
  However the basis set was changed to be stronger
 
 TODO: Compute the outlying charge error (Jenny and Matthew)
+
+* Determine the converged single point energy calculations for each molecule
+with the given parameters
+* Read, understand, and, if necessary, modify the NumForce script to compute
+the gradients (dE/dxyz) with COSMO
+* Determine the significance of the outlying charge error
