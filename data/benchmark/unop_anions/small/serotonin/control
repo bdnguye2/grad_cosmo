@@ -1,0 +1,103 @@
+$cosmo
+  epsilon=   80.000
+  rsolv= 1.30
+$cosmo_atoms
+# radii in Angstrom units
+c  1-8,12-13                                                                   \
+   radius=  2.0000
+o  9                                                                           \
+   radius=  1.7200
+n  10,14                                                                       \
+   radius=  1.8300
+h  11,15-24                                                                    \
+   radius=  1.3000
+$cosmo_out file=out.ccf
+$title
+$operating system unix
+$symmetry c1
+$redundant    file=coord
+$user-defined bonds    file=coord
+$coord    file=coord
+$optimize
+ internal   on
+ redundant  on
+ cartesian  off
+ global     off
+ basis      off
+$atoms
+c  1-8,12-13                                                                   \
+   basis =c def2-SVP                                                           \
+   jbas  =c def2-SVP
+o  9                                                                           \
+   basis =o def2-SVP                                                           \
+   jbas  =o def2-SVP
+n  10,14                                                                       \
+   basis =n def2-SVP                                                           \
+   jbas  =n def2-SVP
+h  11,15-24                                                                    \
+   basis =h def2-SVP                                                           \
+   jbas  =h def2-SVP
+$basis    file=basis
+$rundimensions
+   dim(fock,dens)=31681
+   natoms=24
+   nshell=111
+   nbf(CAO)=250
+   dim(trafo[SAO<-->AO/CAO])=276
+   rhfshells=1
+   nbf(AO)=237
+$scfmo   file=mos
+$closed shells
+ a       1-47                                   ( 2 )
+$scfiterlimit      100
+$thize     0.10000000E-04
+$thime        5
+$scfdump
+$scfintunit
+ unit=30       size=0        file=twoint
+$scfdiis
+$maxcor    500 MiB  per_core
+$scforbitalshift  automatic=.1
+$drvopt
+   cartesian  on
+   basis      off
+   global     off
+   hessian    on
+   dipole     on
+   nuclear polarizability
+$interconversion  off
+   qconv=1.d-7
+   maxiter=25
+$coordinateupdate
+   dqmax=0.3
+   interpolate  on
+   statistics    5
+$forceupdate
+   ahlrichs numgeo=0  mingeo=3 maxgeo=4 modus=<g|dq> dynamic fail=0.3
+   threig=0.005  reseig=0.005  thrbig=3.0  scale=1.00  damping=0.0
+$forceinit on
+   diag=default
+$energy    file=energy
+$grad    file=gradient
+$forceapprox    file=forceapprox
+$dft
+   functional pbe0
+   gridsize   5
+   weight derivatives
+$scfconv   6
+$scfdamp   start=0.700  step=0.050  min=0.050
+$ricore      500
+$rij
+$jbas    file=auxbasis
+$denconv     0.10000000E-06
+$last step     ridft
+$orbital_max_rnorm 0.44883991631785E-05
+$last SCF energy change = -571.45540
+$subenergy  Etot         E1                  Ej                Ex                 Ec                 En
+-571.4554015491    -2257.632122461     1007.956726330    -57.90204986173    -3.178710497735     739.3007549405
+$charge from ridft
+         -1.000 (not to be modified here)
+$dipole from ridft
+  x     5.09313068607594    y    -0.17836925335077    z     0.53617012908767    a.u.
+   | dipole | =   13.0249741574  debye
+$end

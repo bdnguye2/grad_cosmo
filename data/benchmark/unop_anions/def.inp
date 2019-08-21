@@ -1,0 +1,29 @@
+
+
+a coord
+ired
+*
+b all def2-SVP
+
+*
+eht
+
+-1
+
+dft
+on
+func pbe0
+grid 5
+
+ri
+on
+
+cc
+denconv
+7
+*
+scf
+iter
+100
+
+*

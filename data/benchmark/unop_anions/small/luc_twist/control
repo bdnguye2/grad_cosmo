@@ -91,6 +91,7 @@ $forceapprox    file=forceapprox
 $dft
    functional pbe0
    gridsize   5
+   weight derivatives
 $ricore      500
 $rij
 $jbas    file=auxbasis
@@ -100,13 +101,13 @@ $denconv     0.10000000E-06
 $scfconv   6
 $scfdamp   start=0.700  step=0.050  min=0.050
 $last step     ridft
-$orbital_max_rnorm 0.54390684481992E-05
-$last SCF energy change = -4010.4904
-$subenergy  Etot         E1                  Ej                Ex                 Ec                 En
--4010.490372386    -9174.767364928     3527.852602936    -166.8987587234    -6.270441364467     1809.593589693
+$last SCF energy change = -.19176696E-08
 $charge from ridft
          -1.000 (not to be modified here)
 $dipole from ridft
-  x     8.56514325793364    y    -4.70264353833221    z    -1.78732413944340    a.u.
-   | dipole | =   25.2481995810  debye
+  x     8.56496945770175    y    -4.70262301469739    z    -1.78727038178624    a.u.
+   | dipole | =   25.2477693864  debye
+$orbital_max_rnorm 0.34114668000083E-05
+$subenergy  Etot         E1                  Ej                Ex                 Ec                 En
+-4010.490372388    -9174.767470154     3527.852711872    -166.8987624208    -6.270441378609     1809.593589693
 $end

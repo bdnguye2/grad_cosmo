@@ -4,7 +4,7 @@
  Copyright (C) 2017 TURBOMOLE GmbH, Karlsruhe
 
 
-    2019-08-21 12:22:51.956 
+    2019-08-21 12:28:42.790 
 
 
 
@@ -103,30 +103,24 @@
               +--------------------------------------------------+
 
                     atomic coordinates            atom    charge  isotop
-        -12.82965307    6.72111335   -0.00610382    o      8.000     0
-        -10.79481487    5.56630171   -0.00387394    c      6.000     0
-         -8.36449478    6.81949249   -0.00914627    c      6.000     0
-         -6.15449786    5.45862511   -0.00644397    c      6.000     0
-         -6.12237252    2.73932810    0.00175745    c      6.000     0
-         -8.46336525    1.42717787    0.00716206    c      6.000     0
-        -10.66030416    2.77646122    0.00444086    c      6.000     0
-         -3.03516473    6.52838018   -0.01165961    s     16.000     0
-         -2.00511281    3.34574122   -0.00272121    c      6.000     0
-         -3.83886526    1.66250546    0.00355269    n      7.000     0
-          0.55161106    2.75694035   -0.08001100    c      6.000     0
-          1.70288891    2.13954793   -3.18110828    s     16.000     0
-          2.12686787    2.46688629    1.79943502    n      7.000     0
-          4.48798618    1.70971082    1.05783089    c      6.000     0
-          4.73393404    1.37662769   -1.82504081    c      6.000     0
-          5.27966805   -0.58226242   -2.24166873    h      1.000     0
-          6.22116740    2.63949387   -2.53357472    h      1.000     0
-          6.27332384    1.31362422    2.44415288    o      8.000     0
-         -8.39508945    8.87965302   -0.01532568    h      1.000     0
-        -13.79044653    1.03997298    0.01154623    h      1.000     0
-         -8.45423788   -0.63247244    0.01334147    br    35.000     0
+          0.03016003   -1.27397777    0.44746825    c      6.000     0
+         -0.09807679    1.50558260    0.75228108    c      6.000     0
+         -2.18236912   -2.73539747    0.17102022    c      6.000     0
+          2.39084371   -2.50462412    0.49062960    c      6.000     0
+         -2.02404787   -5.36476242   -0.02672073    c      6.000     0
+          0.32818874   -6.56077009   -0.00228657    c      6.000     0
+          2.53268655   -5.13181588    0.23878579    c      6.000     0
+          0.43781175   -8.59628859   -0.16571008    h      1.000     0
+         -3.72916665   -6.48306455   -0.18776319    h      1.000     0
+          4.35428806   -6.06401778    0.24041096    h      1.000     0
+          4.12351470   -1.43178880    0.67839278    h      1.000     0
+         -4.47938793   -1.63911065    0.16928167    o      8.000     0
+         -1.66998878    2.86998377   -0.82395839    o      8.000     0
+          1.41952448    2.59421604    2.56613470    o      8.000     0
+          1.18582205    4.40453588    2.95371753    h      1.000     0
  
-       center of nuclear mass  :   -4.18019417    2.54102749   -0.15888471
-       center of nuclear charge:   -4.03156920    2.64328729   -0.17644302
+       center of nuclear mass  :   -0.41944177   -1.62017099    0.43033970
+       center of nuclear charge:   -0.36059488   -1.68964087    0.43996870
 
               +--------------------------------------------------+
               |               basis set information              |
@@ -137,23 +131,20 @@
 
    type   atoms  prim   cont   basis
    ---------------------------------------------------------------------------
-    o        2     24     14   def2-SVP   [3s2p1d|7s4p1d]
-    c       10     24     14   def2-SVP   [3s2p1d|7s4p1d]
-    s        2     36     18   def2-SVP   [4s3p1d|10s7p1d]
-    n        2     24     14   def2-SVP   [3s2p1d|7s4p1d]
-    h        4      7      5   def2-SVP   [2s1p|4s1p]
-    br       1     74     32   def2-SVP   [5s4p3d|14s10p6d]
+    c        7     24     14   def2-SVP   [3s2p1d|7s4p1d]
+    h        5      7      5   def2-SVP   [2s1p|4s1p]
+    o        3     24     14   def2-SVP   [3s2p1d|7s4p1d]
    ---------------------------------------------------------------------------
-   total:   21    510    284
+   total:   15    275    165
    ---------------------------------------------------------------------------
 
-   total number of primitive shells          :   89
-   total number of contracted shells         :  124
-   total number of cartesian basis functions :  303
-   total number of SCF-basis functions       :  284
+   total number of primitive shells          :   29
+   total number of contracted shells         :   75
+   total number of cartesian basis functions :  175
+   total number of SCF-basis functions       :  165
 
 
- integral neglect threshold       :  0.11E-09
+ integral neglect threshold       :  0.19E-09
  integral storage threshold THIZE :  0.10E-04
  integral storage threshold THIME :         5
 
@@ -164,20 +155,17 @@
 
    type   atoms  prim   cont   basis
    ---------------------------------------------------------------------------
-    o        2     70     49   def2-SVP   [6s4p3d1f1g|12s5p4d2f1g]
-    c       10     70     49   def2-SVP   [6s4p3d1f1g|12s5p4d2f1g]
-    s        2     77     51   def2-SVP   [8s4p3d1f1g|14s5p5d2f1g]
-    n        2     70     49   def2-SVP   [6s4p3d1f1g|12s5p4d2f1g]
-    h        4     16     11   def2-SVP   [3s1p1d|5s2p1d]
-    br       1     89     58   def2-SVP   [8s4p3d2f1g|19s5p5d3f1g]
+    c        7     70     49   def2-SVP   [6s4p3d1f1g|12s5p4d2f1g]
+    h        5     16     11   def2-SVP   [3s1p1d|5s2p1d]
+    o        3     70     49   def2-SVP   [6s4p3d1f1g|12s5p4d2f1g]
    ---------------------------------------------------------------------------
-   total:   21   1287    890
+   total:   15    780    545
    ---------------------------------------------------------------------------
 
-   total number of primitive shells          :  140
-   total number of contracted shells         :  282
-   total number of cartesian basis functions : 1101
-   total number of SCF-basis functions       :  890
+   total number of primitive shells          :   56
+   total number of contracted shells         :  175
+   total number of cartesian basis functions :  670
+   total number of SCF-basis functions       :  545
 
 
  symmetry group of the molecule :   c1 
@@ -195,21 +183,21 @@
                       COSMO switched on
  ==============================================================================
  COSMO stati: segments per atom: H   32 other atoms   92
- COSMO statistics: nps    914 npspher:    441
+ COSMO statistics: nps    672 npspher:    317
  COSMO surface:
-   number of segments:  914
-   area (bohr**2):      932.132010
-   volume (bohr**3):   1882.347857
+   number of segments:  672
+   area (bohr**2):      577.883477
+   volume (bohr**3):   1059.331593
  COSMO: check number of disjunct cavities:
 
        ... OK contiguous cavity found
 
     mo occupation :
    irrep   mo's   occupied
-    a      284       81
+    a      165       36
  
- number of basis functions   :                    284
- number of occupied orbitals :                     81
+ number of basis functions   :                    165
+ number of occupied orbitals :                     36
  
   
            ------------------
@@ -225,31 +213,31 @@
  value for diffuse not defined
  radial integration    : Chebyshev 2nd kind (scaling 3)
  radial gridsize       :                     8
- integration cells     :                    21
+ integration cells     :                    15
  partition function    : becke
  partition sharpness   :                     3
   
 
- biggest AO integral is expected to be    21.668154127
+ biggest AO integral is expected to be     4.776656448
   
            ------------------------
                RI-J - INFORMATION
            ------------------------
  Contributions to RI integral batches: 
-  neglected integral batches:                  2401
+  neglected integral batches:                   325
   direct contribution:                            0
-  memory contribution:                  5349
- Memory core needed for (P|Q) and Cholesky      7 MByte
+  memory contribution:                  2525
+ Memory core needed for (P|Q) and Cholesky      3 MByte
  Memory core minimum needed except of (P|Q)     1 MByte
- Total minimum memory core needed (sum)         7 MByte
+ Total minimum memory core needed (sum)         3 MByte
   
  ****************************************
- Memory allocated for RI-J   271 MByte
+ Memory allocated for RI-J    72 MByte
  ****************************************
                                             
 
           ------------------------
-          nuclear repulsion energy  :   1809.59358969    
+          nuclear repulsion energy  :   478.245095950    
           ------------------------
 
 
@@ -257,7 +245,7 @@
          -S,T+V- integrals
          -----------------
 
- 1e-integrals will be neglected if expon. factor < 0.110296E-10
+ 1e-integrals will be neglected if expon. factor < 0.190969E-10
  
    Difference densities algorithm switched on.
    The maximal number of linear combinations of
@@ -287,43 +275,43 @@
 
  Starting SCF iterations
 
-          Overall gridpoints after grid construction =        372186
+          Overall gridpoints after grid construction =        248881
 
  ITERATION  ENERGY          1e-ENERGY        2e-ENERGY     RMS[dD(SAO)]   TOL
-   1  -4010.4903724090    -9174.7673649     3354.6834028    0.000D+00 0.110D-09
-                            Exc = -173.169200088     Coul =  3583.64171394    
-                            exK = -55.7891110308    
-                              N = 162.00000306    
-                          Ediel =-0.968679457087E-01
+   1  -494.61793148691    -1637.0112198     664.14819240    0.000D+00 0.190D-09
+                            Exc = -49.4571676490     Coul =  729.291621639    
+                            exK = -15.6862615869    
+                              N = 72.000001925    
+                          Ediel =-0.122260249959    
                             current damping = 0.700
  
-          max. resid. norm for Fia-block=  5.912D-06 for orbital     81a         
-          max. resid. fock norm         =  9.022D-06 for orbital    196a         
+          max. resid. norm for Fia-block=  9.550D-06 for orbital     33a         
+          max. resid. fock norm         =  1.339D-05 for orbital     12a         
 
  ITERATION  ENERGY          1e-ENERGY        2e-ENERGY     RMS[dD(SAO)]   TOL
-   2  -4010.4903724044    -9174.7674021     3354.6834400    0.461D-06 0.698D-10
-                            Exc = -173.169202755      Eck =  3527.85264275    
-                              N = 162.00000306    
-                          Ediel =-0.968669477785E-01
+   2  -494.61793148568    -1637.0111270     664.14809956    0.600D-06 0.121D-09
+                            Exc = -49.4571568928      Eck =  713.605256449    
+                              N = 72.000001925    
+                          Ediel =-0.122258427789    
                             current damping = 0.700
  
-          Norm of current diis error: 0.39922E-04
-          max. resid. norm for Fia-block=  1.682D-06 for orbital     74a         
-          max. resid. fock norm         =  3.884D-06 for orbital    196a         
+          Norm of current diis error: 0.44410E-04
+          max. resid. norm for Fia-block=  2.236D-06 for orbital     34a         
+          max. resid. fock norm         =  3.463D-06 for orbital    152a         
 
  ENERGY & DENSITY CONVERGED !
 
 
  ITERATION  ENERGY          1e-ENERGY        2e-ENERGY     RMS[dD(SAO)]   TOL
-   3  -4010.4903723879    -9174.7674702     3354.6835081    0.161D-06 0.582D-10
-                            Exc = -173.169203799      Eck =  3527.85271187    
-                              N = 162.00000306    
-                          Ediel =-0.968669439594E-01
+   3  -494.61793149457    -1637.0111026     664.14807518    0.215D-06 0.104D-09
+                            Exc = -49.4571577680      Eck =  713.605232945    
+                              N = 72.000001925    
+                          Ediel =-0.122258759566    
                             current damping = 0.550
  
-          Norm of current diis error: 0.18791E-04
-          max. resid. norm for Fia-block=  1.096D-06 for orbital     81a         
-          max. resid. fock norm         =  3.411D-06 for orbital    196a         
+          Norm of current diis error: 0.16787E-04
+          max. resid. norm for Fia-block=  1.486D-06 for orbital     36a         
+          max. resid. fock norm         =  3.924D-06 for orbital    105a         
 
  End of SCF iterations
  COSMO: write data to file cosmo_transfer.tmp
@@ -332,25 +320,25 @@
 
 
                   ------------------------------------------ 
-                 |  total energy      =  -4010.49037238792  |
+                 |  total energy      =   -494.61793149457  |
                   ------------------------------------------ 
-                 :  kinetic energy    =   4007.47381140860  :
-                 :  potential energy  =  -8017.96418379651  :
-                 :  virial theorem    =      1.99924783238  :
+                 :  kinetic energy    =    489.84538460461  :
+                 :  potential energy  =   -984.46331609917  :
+                 :  virial theorem    =      1.99035104353  :
                  :  wavefunction norm =      1.00000000000  :
                   .......................................... 
 
 
  orbitals $scfmo  will be written to file mos
 
-    irrep                 77a         78a         79a         80a         81a   
- eigenvalues H         -0.27230    -0.25386    -0.21943    -0.20435    -0.17778
-            eV          -7.4097     -6.9080     -5.9711     -5.5606     -4.8376
+    irrep                 32a         33a         34a         35a         36a   
+ eigenvalues H         -0.29949    -0.26947    -0.25043    -0.20065    -0.18045
+            eV          -8.1497     -7.3328     -6.8145     -5.4599     -4.9105
  occupation              2.0000      2.0000      2.0000      2.0000      2.0000 
 
-    irrep                 82a         83a         84a         85a         86a   
- eigenvalues H         -0.08448    -0.04032    -0.03695     0.00397     0.01624
-            eV          -2.2988     -1.0972     -1.0054      0.1079      0.4420
+    irrep                 37a         38a         39a         40a         41a   
+ eigenvalues H         -0.03291     0.02840     0.04546     0.08482     0.10184
+            eV          -0.8956      0.7729      1.2370      2.3081      2.7712
  
  ==============================================================================
                                   COSMO RESULTS
@@ -359,10 +347,10 @@
     nppa:      1082
     nspa:        92
     nsph:        32
-    nps:        914
-    npspher:    441
+    nps:        672
+    npspher:    317
     disex:   10.0000    
-    disex2:  5044.12    
+    disex2:  4483.57    
     rsolv [A]: 1.3000
     routf:     0.8500
     phsran:    0.0    
@@ -373,24 +361,21 @@
     fepsi:      0.9813665
   CAVITY VOLUME/AREA [a.u.]:
     surface: V1.0, A matrix: V1.0
-    area:   932.13
-    volume:  1882.35
+    area:   577.88
+    volume:  1059.33
   SCREENING CHARGE:
-    cosmo      :   0.975228
-    correction :   0.023349
-    total      :   0.998577
+    cosmo      :   0.980395
+    correction :   0.017855
+    total      :   0.998249
   ENERGIES [a.u.]:
-    Total energy            =   -4010.4903723879179
-    Total energy + OC corr. =    -4010.4929583116
-    Dielectric energy       =       -0.0968669440
-    Diel. energy + OC corr. =       -0.0994528677
+    Total energy            =    -494.6179314945657
+    Total energy + OC corr. =     -494.6203078562
+    Dielectric energy       =       -0.1222587596
+    Diel. energy + OC corr. =       -0.1246351212
   ELEMENT RADIUS [A]: ATOM LIST
-    o  1.72: 1,18
-    c  2.00: 2-7,9,11,14,15
-    s  2.16: 8,12
-    n  1.83: 10,13
-    h  1.30: 16,17,19,20
-    br 2.16: 21
+    c  2.00: 1-7
+    h  1.30: 8-11,15
+    o  1.72: 12-14
  ==============================================================================
  
  
@@ -406,41 +391,41 @@
  ------------------------------------------------------------------------------
                           charge      
  ------------------------------------------------------------------------------
-         161.000000    -162.000000      -1.000000
+          71.000000     -72.000000      -1.000000
  
  ------------------------------------------------------------------------------
                        dipole moment  
  ------------------------------------------------------------------------------
-   x    -649.082641     657.647610       8.564969
-   y     425.569254    -430.271877      -4.702623
-   z     -28.407327      26.620057      -1.787270
+   x     -25.602236      29.199769       3.597533
+   y    -119.964501     121.238287       1.273786
+   z      31.237778     -30.549955       0.687822
  
-   | dipole moment | =     9.9332 a.u. =    25.2476 debye 
+   | dipole moment | =     3.8779 a.u. =     9.8566 debye 
  
  ------------------------------------------------------------------------------
                      quadrupole moment
  ------------------------------------------------------------------------------
-  xx    7753.089157   -7958.819490    -205.730333
-  yy    2182.422202   -2301.315556    -118.893354
-  zz     270.559690    -366.591272     -96.031581
-  xy   -1980.008926    2031.841947      51.833020
-  xz       8.953498     -18.570109      -9.616611
-  yz     -65.597330      62.747268      -2.850062
+  xx     377.068619    -434.729411     -57.660792
+  yy    1010.207672   -1054.270948     -44.063276
+  zz      74.209212    -119.265909     -45.056698
+  xy      16.203667     -16.817567      -0.613900
+  xz      50.443369     -51.016557      -0.573188
+  yz      32.134588     -26.947989       5.186599
  
-     1/3  trace=    -140.218423
-     anisotropy=     135.684785
+     1/3  trace=     -48.926922
+     anisotropy=      15.974665
  
  ==============================================================================
  
 
 
     ------------------------------------------------------------------------
-         total  cpu-time :  18.01 seconds
-         total wall-time :  18.02 seconds
+         total  cpu-time :   6.24 seconds
+         total wall-time :   6.25 seconds
     ------------------------------------------------------------------------
 
    ****  ridft : all done  ****
 
 
-    2019-08-21 12:23:09.967 
+    2019-08-21 12:28:49.033 
 
