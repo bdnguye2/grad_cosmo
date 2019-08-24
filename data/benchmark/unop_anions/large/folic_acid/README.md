@@ -1,2 +1,2 @@
 Folic_acid
-Molecular charge: -1
+Molecular charge: -2

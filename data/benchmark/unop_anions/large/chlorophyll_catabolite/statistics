@@ -1,0 +1,327 @@
+Thu Aug 22 13:03:13 PDT 2019
+
+ DSCF STATISTICS OUTPUT :
+
+ integral neglect threshold       :  0.38E-10
+ integral storage threshold THIZE :  0.10E-04
+ integral storage threshold THIME :         5
+
+
+ --------------------    1.ITERATION  --------------------
+ norm of density matrix                :    17.2665495790    
+ number of shell pairs ii,jj included  :        35517
+ number of integral batches included   :    169811270
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2090.9192997479    
+ one-electron energy                   : -14561.664013695    
+ two-electron energy                   :  6594.3822947371    
+ damping factor ttr                    :           0.7000    
+
+ --------------------    2.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.528219D-02
+ 
+  weight factors dlin for linear combination of density matrices :
+  0.99218523    
+ accerr=   1.984  crierr=1000.000  ilam=  0  grange= 0.0      chatol=   0.638
+
+ norm of difference density matrix     :    3.34450280883    
+ norm of simple difference density     :    3.34722366469    
+ norm of density matrix                :    17.4550263953    
+ number of shell pairs ii,jj included  :        36059
+ number of integral batches included   :    178177798
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2096.8559851187    
+ one-electron energy                   : -14597.556033590    
+ two-electron energy                   :  6624.3376292612    
+ energy increment                      :           -5.937    
+ damping factor ttr                    :           0.6500    
+
+ --------------------    3.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.280053D-02
+ 
+  weight factors dlin for linear combination of density matrices :
+  0.99171367       1.2537610    
+ accerr=   2.624  crierr=1000.000  ilam=  0  grange= 0.0      chatol=   0.512
+
+ norm of difference density matrix     :    1.51661737474    
+ norm of simple difference density     :    1.73795673479    
+ norm of density matrix                :    17.6945315932    
+ number of shell pairs ii,jj included  :        36325
+ number of integral batches included   :    167603939
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2098.0144222056    
+ one-electron energy                   : -14614.706201855    
+ two-electron energy                   :  6640.3293604388    
+ energy increment                      :           -1.158    
+ damping factor ttr                    :           0.5500    
+
+ --------------------    4.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.241034D-02
+ 
+  weight factors dlin for linear combination of density matrices :
+  0.98891218       1.3818827       1.7917407    
+ accerr=   3.599  crierr=1000.000  ilam=  0  grange= 0.0      chatol=   0.422
+
+ norm of difference density matrix     :   0.762383437543    
+ norm of simple difference density     :    1.48627945427    
+ norm of density matrix                :    17.9132548791    
+ number of shell pairs ii,jj included  :        36552
+ number of integral batches included   :    158127521
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2098.4165443748    
+ one-electron energy                   : -14620.507914800    
+ two-electron energy                   :  6645.7289512145    
+ energy increment                      :          -0.4021    
+ damping factor ttr                    :           0.4500    
+
+ --------------------    5.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.112413D-02
+ 
+  weight factors dlin for linear combination of density matrices :
+  0.98898944       1.3890492       2.1498002       1.3344745    
+ accerr=   4.294  crierr=1000.000  ilam=  0  grange= 0.0      chatol=   0.386
+
+ norm of difference density matrix     :   0.349969543103    
+ norm of simple difference density     :   0.694960782438    
+ norm of density matrix                :    18.0270596382    
+ number of shell pairs ii,jj included  :        36654
+ number of integral batches included   :    147710357
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2098.4959480816    
+ one-electron energy                   : -14624.456002546    
+ two-electron energy                   :  6649.5976352545    
+ energy increment                      :          -0.7940E-01
+ damping factor ttr                    :           0.3500    
+
+ --------------------    6.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.742232D-03
+ 
+  weight factors dlin for linear combination of density matrices :
+  0.98811965       1.4057741       2.3370408       1.7451043       1.2040860    
+ accerr=   4.973  crierr=1000.000  ilam=  0  grange= 0.0      chatol=   0.362
+
+ norm of difference density matrix     :   0.154378459337    
+ norm of simple difference density     :   0.459275125680    
+ norm of density matrix                :    18.1033519996    
+ number of shell pairs ii,jj included  :        36714
+ number of integral batches included   :    132266778
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2098.5152886135    
+ one-electron energy                   : -14625.694956991    
+ two-electron energy                   :  6650.8172491670    
+ energy increment                      :          -0.1934E-01
+ damping factor ttr                    :           0.2500    
+
+ --------------------    7.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.286667D-03
+ 
+  weight factors dlin for linear combination of density matrices :
+  0.98817908       1.3927096       2.3606724       1.7450517       1.6329790    
+   1.0420958    
+ accerr=   5.311  crierr=1000.000  ilam=  0  grange= 0.0      chatol=   0.352
+
+ norm of difference density matrix     :   0.744145110237E-01
+ norm of simple difference density     :   0.176930308298    
+ norm of density matrix                :    18.1043992099    
+ number of shell pairs ii,jj included  :        36759
+ number of integral batches included   :    113177235
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2098.5192460677    
+ one-electron energy                   : -14625.931700797    
+ two-electron energy                   :  6651.0500355193    
+ energy increment                      :          -0.3957E-02
+ damping factor ttr                    :           0.1000    
+
+ --------------------    8.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.131648D-03
+ 
+  weight factors dlin for linear combination of density matrices :
+  0.98809468       1.3894769       2.3683171       1.7761688       1.7405710    
+   1.3926260       1.1852085    
+ accerr=   5.676  crierr=1000.000  ilam=  0  grange= 0.0      chatol=   0.343
+
+ norm of difference density matrix     :   0.330989782587E-01
+ norm of simple difference density     :   0.802988643971E-01
+ norm of density matrix                :    18.1061843951    
+ number of shell pairs ii,jj included  :        36787
+ number of integral batches included   :     99435998
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2098.5198363669    
+ one-electron energy                   : -14626.097199412    
+ two-electron energy                   :  6651.2149438346    
+ energy increment                      :          -0.5903E-03
+ damping factor ttr                    :           0.5000E-01
+
+ --------------------    9.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.608922D-04
+ 
+  weight factors dlin for linear combination of density matrices :
+  0.98801445       1.3885788       2.3683081       1.7836294       1.7933089    
+   1.4499735       1.5486230      0.75731365    
+ accerr=   5.919  crierr=1000.000  ilam=  0  grange= 0.0      chatol=   0.338
+
+ norm of difference density matrix     :   0.129445328446E-01
+ norm of simple difference density     :   0.377590354904E-01
+ norm of density matrix                :    18.1054132810    
+ number of shell pairs ii,jj included  :        36807
+ number of integral batches included   :     86590344
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2098.5199828660    
+ one-electron energy                   : -14626.123282169    
+ two-electron energy                   :  6651.2408800924    
+ energy increment                      :          -0.1465E-03
+ damping factor ttr                    :           0.5000E-01
+
+ --------------------   10.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.349314D-04
+ 
+  weight factors dlin for linear combination of density matrices :
+  0.98801873       1.3867484       2.3643934       1.7756212       1.8227510    
+   1.5001503       1.6596163       1.0487446      0.93580888    
+ accerr=   6.149  crierr=1000.000  ilam=  0  grange= 0.0      chatol=   0.333
+
+ norm of difference density matrix     :   0.525166736667E-02
+ norm of simple difference density     :   0.215804853369E-01
+ norm of density matrix                :    18.1028072192    
+ number of shell pairs ii,jj included  :        36815
+ number of integral batches included   :     69261935
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2098.5200148658    
+ one-electron energy                   : -14626.081370721    
+ two-electron energy                   :  6651.1989366444    
+ energy increment                      :          -0.3200E-04
+ damping factor ttr                    :           0.1000    
+
+ --------------------   11.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.128912D-04
+ 
+  weight factors dlin for linear combination of density matrices :
+  0.98800948       1.3865685       2.3636482       1.7750541       1.8302435    
+   1.5227244       1.7101561       1.0817950       1.2663052      0.68215105    
+ accerr=   6.325  crierr=1000.000  ilam=  0  grange= 0.0      chatol=   0.330
+
+ norm of difference density matrix     :   0.233171439231E-02
+ norm of simple difference density     :   0.792077644262E-02
+ norm of density matrix                :    18.1024151403    
+ number of shell pairs ii,jj included  :        36836
+ number of integral batches included   :     57106696
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2098.5200201620    
+ one-electron energy                   : -14626.111227254    
+ two-electron energy                   :  6651.2287878815    
+ energy increment                      :          -0.5296E-05
+ damping factor ttr                    :           0.1500    
+
+ --------------------   12.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.573618D-05
+ 
+  weight factors dlin for linear combination of density matrices :
+  0.98800065       1.3865768       2.3635009       1.7759220       1.8313497    
+   1.5339160       1.7314760       1.1076922       1.2935010       1.0710900    
+  0.65580349    
+ accerr=   6.476  crierr=1000.000  ilam=  0  grange= 0.0      chatol=   0.327
+
+ norm of difference density matrix     :   0.892421069415E-03
+ norm of simple difference density     :   0.355456902425E-02
+ norm of density matrix                :    18.1023336723    
+ number of shell pairs ii,jj included  :        36848
+ number of integral batches included   :     43759294
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2098.5200214287    
+ one-electron energy                   : -14626.106563733    
+ two-electron energy                   :  6651.2241230940    
+ energy increment                      :          -0.1267E-05
+ damping factor ttr                    :           0.2000    
+
+ --------------------   13.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.441758D-05
+ 
+  weight factors dlin for linear combination of density matrices :
+  0.98800129       1.3863457       2.3630079       1.7745426       1.8347357    
+   1.5345332       1.7544492       1.1068030       1.3396639       1.1369442    
+  0.78015808      0.64190182    
+ accerr=   6.580  crierr= 468.651  ilam=  0  grange= 0.0      chatol=   0.325
+
+ norm of difference density matrix     :   0.514670941989E-03
+ norm of simple difference density     :   0.274349847950E-02
+ norm of density matrix                :    18.1019756329    
+ number of shell pairs ii,jj included  :        36854
+ number of integral batches included   :     37172525
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2098.5200217582    
+ one-electron energy                   : -14626.100322531    
+ two-electron energy                   :  6651.2178815628    
+ energy increment                      :          -0.3295E-06
+ damping factor ttr                    :           0.5000E-01
+
+ --------------------   14.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.198682D-05
+ 
+  weight factors dlin for linear combination of density matrices :
+  0.98800052       1.3863542       2.3629835       1.7747129       1.8347439    
+   1.5389247       1.7514913       1.1312551       1.3496491       1.1392714    
+  0.93665610      0.99870936      0.42979811    
+ accerr=   6.702  crierr= 508.567  ilam=  0  grange= 0.0      chatol=   0.323
+
+ norm of difference density matrix     :   0.223287607826E-03
+ norm of simple difference density     :   0.125287593833E-02
+ norm of density matrix                :    18.1019819561    
+ number of shell pairs ii,jj included  :        36868
+ number of integral batches included   :     27723724
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2098.5200219498    
+ one-electron energy                   : -14626.103076809    
+ two-electron energy                   :  6651.2206356488    
+ energy increment                      :          -0.1916E-06
+ damping factor ttr                    :           0.1000    
+
+ --------------------   15.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.122541D-05
+ 
+  weight factors dlin for linear combination of density matrices :
+  0.98799940       1.3863271       2.3629073       1.7746408       1.8352889    
+   1.5405029       1.7582611       1.1297547       1.3762883       1.1594028    
+  0.96117187      0.96980396      0.86774070      0.68775091    
+ accerr=   6.827  crierr=  10.000  ilam=  0  grange= 0.0      chatol=   0.321
+
+ norm of difference density matrix     :   0.771659336783E-04
+ norm of simple difference density     :   0.756701161560E-03
+ norm of density matrix                :    18.1019274736    
+ number of shell pairs ii,jj included  :        36876
+ number of integral batches included   :     17918923
+ number of batches from twoint         :            0
+ unnecessary integral batches on file  :            0
+
+ total energy                          : -2098.5200220374    
+ one-electron energy                   : -14626.103291812    
+ two-electron energy                   :  6651.2208505642    
+ energy increment                      :          -0.8763E-07
+ damping factor ttr                    :           0.5000E-01
