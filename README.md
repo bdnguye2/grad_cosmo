@@ -24,8 +24,8 @@ cosmo parameters:
 * nspa 92 
 * dielectric constant 80 (water)
  
-chose these parameters to maintain consistancy with the ground state calculations.
- However the basis set was changed to be stronger
+Based on prelimiary results, these parameters are chosen to maintain consistancy 
+with the ground state calculations.
 
 TODO: Compute the outlying charge error (Jenny and Matthew)
 
