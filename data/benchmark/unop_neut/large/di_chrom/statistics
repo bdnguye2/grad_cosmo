@@ -1,0 +1,238 @@
+Mon Sep  9 16:19:32 PDT 2019
+
+ DSCF STATISTICS OUTPUT :
+
+ integral neglect threshold       :  0.85E-10
+ integral storage threshold THIZE :  0.10E-04
+ integral storage threshold THIME :         5
+
+
+ --------------------    1.ITERATION  --------------------
+ total energy                          : -2987.3078109692    
+ one-electron energy                   : -9131.6923580810    
+ two-electron energy                   :  3567.4413794823    
+ damping factor ttr                    :           0.7000    
+
+ --------------------    2.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.173878D-01
+ total energy                          : -2990.8515110482    
+ one-electron energy                   : -9275.7344979002    
+ two-electron energy                   :  3707.9398192225    
+ energy increment                      :           -3.544    
+ damping factor ttr                    :           0.6500    
+
+ --------------------    3.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.897958D-02
+ total energy                          : -2992.9897324684    
+ one-electron energy                   : -9233.1678026959    
+ two-electron energy                   :  3663.2349025980    
+ energy increment                      :           -2.138    
+ damping factor ttr                    :           0.6000    
+
+ --------------------    4.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.340811D-02
+ total energy                          : -2993.1909819239    
+ one-electron energy                   : -9247.6976781559    
+ two-electron energy                   :  3677.5635286025    
+ energy increment                      :          -0.2012    
+ damping factor ttr                    :           0.6500    
+
+ --------------------    5.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.288742D-02
+ total energy                          : -2993.3437031516    
+ one-electron energy                   : -9244.0875575120    
+ two-electron energy                   :  3673.8006867308    
+ energy increment                      :          -0.1527    
+ damping factor ttr                    :           0.7000    
+
+ --------------------    6.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.248652D-02
+ total energy                          : -2993.4264949335    
+ one-electron energy                   : -9240.3799569897    
+ two-electron energy                   :  3670.0102944268    
+ energy increment                      :          -0.8279E-01
+ damping factor ttr                    :           0.6000    
+
+ --------------------    7.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.199179D-02
+ total energy                          : -2993.4590273091    
+ one-electron energy                   : -9240.9946118617    
+ two-electron energy                   :  3670.5924169230    
+ energy increment                      :          -0.3253E-01
+ damping factor ttr                    :           0.6500    
+
+ --------------------    8.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.944248D-03
+ total energy                          : -2993.4655590394    
+ one-electron energy                   : -9238.3566984919    
+ two-electron energy                   :  3667.9479718229    
+ energy increment                      :          -0.6532E-02
+ damping factor ttr                    :           0.7000    
+
+ --------------------    9.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.619416D-03
+ total energy                          : -2993.4708326946    
+ one-electron energy                   : -9238.7850896025    
+ two-electron energy                   :  3668.3710892783    
+ energy increment                      :          -0.5274E-02
+ damping factor ttr                    :           0.7500    
+
+ --------------------   10.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.378611D-03
+ total energy                          : -2993.4743723549    
+ one-electron energy                   : -9240.7181685428    
+ two-electron energy                   :  3670.3006285584    
+ energy increment                      :          -0.3540E-02
+ damping factor ttr                    :           0.6500    
+
+ --------------------   11.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.278904D-03
+ total energy                          : -2993.4758442503    
+ one-electron energy                   : -9238.9035751208    
+ two-electron energy                   :  3668.4845632409    
+ energy increment                      :          -0.1472E-02
+ damping factor ttr                    :           0.7000    
+
+ --------------------   12.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.202813D-03
+ total energy                          : -2993.4765419717    
+ one-electron energy                   : -9239.5690907080    
+ two-electron energy                   :  3669.1493811067    
+ energy increment                      :          -0.6977E-03
+ damping factor ttr                    :           0.7500    
+
+ --------------------   13.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.127987D-03
+ total energy                          : -2993.4767909878    
+ one-electron energy                   : -9239.5696578799    
+ two-electron energy                   :  3669.1496992626    
+ energy increment                      :          -0.2490E-03
+ damping factor ttr                    :           0.6000    
+
+ --------------------   14.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.104977D-03
+ total energy                          : -2993.4769017411    
+ one-electron energy                   : -9239.4458135526    
+ two-electron energy                   :  3669.0257441820    
+ energy increment                      :          -0.1108E-03
+ damping factor ttr                    :           0.6500    
+
+ --------------------   15.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.626937D-04
+ total energy                          : -2993.4769551869    
+ one-electron energy                   : -9239.2187358076    
+ two-electron energy                   :  3668.7986129912    
+ energy increment                      :          -0.5345E-04
+ damping factor ttr                    :           0.5000    
+
+ --------------------   16.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.496033D-04
+ total energy                          : -2993.4770091456    
+ one-electron energy                   : -9239.5554232480    
+ two-electron energy                   :  3669.1352464729    
+ energy increment                      :          -0.5396E-04
+ damping factor ttr                    :           0.5500    
+
+ --------------------   17.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.417670D-04
+ total energy                          : -2993.4770344936    
+ one-electron energy                   : -9239.4088122686    
+ two-electron energy                   :  3668.9886101455    
+ energy increment                      :          -0.2535E-04
+ damping factor ttr                    :           0.6000    
+
+ --------------------   18.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.235250D-04
+ total energy                          : -2993.4770413619    
+ one-electron energy                   : -9239.4324432497    
+ two-electron energy                   :  3669.0122342583    
+ energy increment                      :          -0.6868E-05
+ damping factor ttr                    :           0.6500    
+
+ --------------------   19.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.159487D-04
+ total energy                          : -2993.4770454858    
+ one-electron energy                   : -9239.4537794192    
+ two-electron energy                   :  3669.0335663039    
+ energy increment                      :          -0.4124E-05
+ damping factor ttr                    :           0.5000    
+
+ --------------------   20.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.143977D-04
+ total energy                          : -2993.4770482526    
+ one-electron energy                   : -9239.4669130634    
+ two-electron energy                   :  3669.0466971812    
+ energy increment                      :          -0.2767E-05
+ damping factor ttr                    :           0.3500    
+
+ --------------------   21.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.871932D-05
+ total energy                          : -2993.4770487202    
+ one-electron energy                   : -9239.3951081447    
+ two-electron energy                   :  3668.9748917950    
+ energy increment                      :          -0.4675E-06
+ damping factor ttr                    :           0.4000    
+
+ --------------------   22.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.806637D-05
+ total energy                          : -2993.4770503036    
+ one-electron energy                   : -9239.4434757518    
+ two-electron energy                   :  3669.0232578187    
+ energy increment                      :          -0.1583E-05
+ damping factor ttr                    :           0.4500    
+
+ --------------------   23.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.613525D-05
+ total energy                          : -2993.4770506191    
+ one-electron energy                   : -9239.4383092199    
+ two-electron energy                   :  3669.0180909712    
+ energy increment                      :          -0.3155E-06
+ damping factor ttr                    :           0.5000    
+
+ --------------------   24.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.296617D-05
+ total energy                          : -2993.4770506836    
+ one-electron energy                   : -9239.4352712734    
+ two-electron energy                   :  3669.0150529603    
+ energy increment                      :          -0.6443E-07
+ damping factor ttr                    :           0.3500    
+
+ --------------------   25.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.239458D-05
+ total energy                          : -2993.4770508535    
+ one-electron energy                   : -9239.4370475364    
+ two-electron energy                   :  3669.0168290533    
+ energy increment                      :          -0.1700E-06
+ damping factor ttr                    :           0.4000    
+
+ --------------------   26.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.234769D-05
+ total energy                          : -2993.4770508551    
+ one-electron energy                   : -9239.4489668680    
+ two-electron energy                   :  3669.0287483833    
+ energy increment                      :          -0.1617E-08
+ damping factor ttr                    :           0.2500    
+
+ --------------------   27.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.125225D-05
+ total energy                          : -2993.4770509225    
+ one-electron energy                   : -9239.4378044565    
+ two-electron energy                   :  3669.0175859044    
+ energy increment                      :          -0.6742E-07
+ damping factor ttr                    :           0.3000    
+
+ --------------------   28.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.115469D-05
+ total energy                          : -2993.4770509359    
+ one-electron energy                   : -9239.4397975225    
+ two-electron energy                   :  3669.0195789570    
+ energy increment                      :          -0.1339E-07
+ damping factor ttr                    :           0.3500    
+
+ --------------------   29.ITERATION  --------------------
+ RMS (maximum over irreps) of difference density =0.725494D-06
+ total energy                          : -2993.4770509345    
+ one-electron energy                   : -9239.4392795617    
+ two-electron energy                   :  3669.0190609977    
+ energy increment                      :           0.1488E-08
+ damping factor ttr                    :           0.4000    

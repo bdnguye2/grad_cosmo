@@ -1,0 +1,124 @@
+$cosmo
+  use_contcav
+  epsilon=   80.000
+  rsolv= 1.30
+$cosmo_atoms
+# radii in Angstrom units
+c  1-60,62,64,67,71-76,82-83,85,89-90,92,94,96-97,99-101,104-105,107-109,      \
+   112-116,120,122-127,133-138,143-148,154-159,166,169,173-178,183,185-186,191 \
+   193,195,197,199,201                                                         \
+   radius=  2.0000
+h  61,63,65,68-70,77-80,86-88,91,95,102-103,110-111,118-119,128-132,139-142,   \
+   149-153,160-164,167-168,170-171,179-182,192,194,196,198,200,202             \
+   radius=  1.3000
+n  66,81,84,93,98,106,117,187-188                                              \
+   radius=  1.8300
+o  165,172                                                                     \
+   radius=  1.7200
+f  189-190                                                                     \
+   radius=  1.7200
+zn 121                                                                         \
+   radius=  1.6260
+b  184                                                                         \
+   radius=  2.0480
+$cosmo_out file=out.ccf
+$title
+$operating system unix
+$symmetry c1
+$redundant    file=coord
+$user-defined bonds    file=coord
+$coord    file=coord
+$optimize
+ internal   on
+ redundant  on
+ cartesian  off
+ global     off
+ basis      off
+$atoms
+c  1-60,62,64,67,71-76,82-83,85,89-90,92,94,96-97,99-101,104-105,107-109,      \
+   112-116,120,122-127,133-138,143-148,154-159,166,169,173-178,183,185-186,191 \
+   193,195,197,199,201                                                         \
+   basis =c def2-SVP                                                           \
+   jbas  =c def2-SVP
+h  61,63,65,68-70,77-80,86-88,91,95,102-103,110-111,118-119,128-132,139-142,   \
+   149-153,160-164,167-168,170-171,179-182,192,194,196,198,200,202             \
+   basis =h def2-SVP                                                           \
+   jbas  =h def2-SVP
+n  66,81,84,93,98,106,117,187-188                                              \
+   basis =n def2-SVP                                                           \
+   jbas  =n def2-SVP
+zn 121                                                                         \
+   basis =zn def2-SVP                                                          \
+   jbas  =zn def2-SVP
+o  165,172                                                                     \
+   basis =o def2-SVP                                                           \
+   jbas  =o def2-SVP
+b  184                                                                         \
+   basis =b def2-SVP                                                           \
+   jbas  =b def2-SVP
+f  189-190                                                                     \
+   basis =f def2-SVP                                                           \
+   jbas  =f def2-SVP
+$basis    file=basis
+$rundimensions
+   dim(fock,dens)=3157149
+   natoms=202
+   nshell=1055
+   nbf(CAO)=2511
+   dim(trafo[SAO<-->AO/CAO])=2815
+   rhfshells=1
+   nbf(AO)=2359
+$scfmo   file=mos
+$scfiterlimit      100
+$thize     0.10000000E-04
+$thime        5
+$scfdump
+$scfintunit
+ unit=30       size=0        file=twoint
+$scfdiis
+$maxcor   2000 MiB  per_core
+$scforbitalshift  automatic=.1
+$drvopt
+   cartesian  on
+   basis      off
+   global     off
+   hessian    on
+   dipole     on
+   nuclear polarizability
+$interconversion  off
+   qconv=1.d-7
+   maxiter=25
+$coordinateupdate
+   dqmax=0.3
+   interpolate  on
+   statistics    5
+$forceupdate
+   ahlrichs numgeo=0  mingeo=3 maxgeo=4 modus=<g|dq> dynamic fail=0.3
+   threig=0.005  reseig=0.005  thrbig=3.0  scale=1.00  damping=0.0
+$forceinit on
+   diag=default
+$energy    file=energy
+$grad    file=gradient
+$forceapprox    file=forceapprox
+$dft
+   functional pbe0
+   gridsize   5
+$scfconv   6
+$scfdamp   start=0.700  step=0.050  min=0.050
+$ricore      2000
+$rij
+$jbas    file=auxbasis
+$denconv     0.10000000E-06
+$closed shells
+ a       1-492                                  ( 2 )
+$last step     ridft
+$orbital_max_rnorm 0.34782348746044E-05
+$last SCF energy change = -7736.5412
+$subenergy  Etot         E1                  Ej                Ex                 Ec                 En
+-7736.541183677    -74355.79119556     35553.24833540    -876.2249255823    -34.24593692117     31976.47253899
+$charge from ridft
+         -0.000 (not to be modified here)
+$dipole from ridft
+  x    -0.30981286381484    y     1.41360515972997    z     0.49163584389305    a.u.
+   | dipole | =    3.8848037339  debye
+$end
